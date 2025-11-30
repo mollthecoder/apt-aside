@@ -18,6 +18,7 @@ apt-aside requires the following packages to already be installed on your system
 - git
 - GNU coreutils
 - bash (bash must be installed, but it is fine if it is not your main shell)
+
 apt-aside also relies on debootstrap during installation, but will clone it into /tmp for you, and delete it when the installation is complete.
 apt-aside only works on x86-64 systems, aka amd64.
 
@@ -42,11 +43,11 @@ nasm --version
 Launches a fakeroot and fakechroot bash into apt-aside's Debian Testing installation. 
 
 ### apt-aside-expose
-Usage: apt-aside-expose [package name]
+Usage: apt-aside-expose [package name]<br/>
 Adds all of the binaries of a package that is installed in apt-aside's Debian installation to your PATH.
 
 ### apt-get-aside
-Alias: apt-aside-get
+Alias: apt-aside-get<br/>
 The apt-get binary of apt-aside's Debian installation. See the usage of `apt-get`.
 
 None of these commands require root.
