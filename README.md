@@ -21,17 +21,14 @@ Each of these alternatives have singificantly larger communities backing them an
 
 ## Dependencies
 apt-aside requires the following packages to already be installed on your system:
+- git*
 - fakeroot*
-- fakechroot*
-- bubblewrap (bwrap)
-- git
-- GNU coreutils
-- bash (bash must be installed, but it is fine if it is not your main shell)
+- [proot](https://proot-me.github.io/)
 
 *Package is only necessary when installing apt-aside for the first time
 
-apt-aside also relies on debootstrap during installation, but will clone it into /tmp for you, and delete it when the installation is complete.
-apt-aside only works on x86-64 systems, aka amd64.
+apt-aside also relies on debootstrap during installation, but will clone it into /tmp for you, and delete it when the installation is complete. We do this because we need the latest debootstrap.
+apt-aside only works on x86-64/amd64 systems.
 
 ## Installation
 ```sh
@@ -43,22 +40,27 @@ After the installation is complete, follow the on-screen instructions to add apt
 
 Example:
 ```sh
-apt-get-aside update
-apt-get-aside upgrade
-apt-get-aside install nasm
+apt-aside update
+apt-aside upgrade
+apt-aside install nasm
 apt-aside-expose nasm
 nasm --version
 ```
 
+### apt-aside
+The apt binary of apt-aside's Debian installation. See the usage of `apt`.
+
 ### apt-aside-bash
-Launches a fakeroot and bubblewrapped bash into apt-aside's Debian Testing installation. 
+Launches a fakeroot and prooted bash into apt-aside's Debian Testing installation. 
 
 ### apt-aside-expose
-Usage: apt-aside-expose [package name]<br/>
+Usage: apt-aside-expose [package name]
+
 Adds all of the binaries of a package that is installed in apt-aside's Debian installation to your PATH.
 
 ### apt-get-aside
-Alias: apt-aside-get<br/>
+Alias: apt-aside-get
+
 The apt-get binary of apt-aside's Debian installation. See the usage of `apt-get`.
 
 None of these commands require root.
