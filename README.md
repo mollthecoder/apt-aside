@@ -11,6 +11,14 @@ The following packages will not work:
 ## What Will Work
 Development tools, programming languages, most GUI apps, and more.
 
+## Alternatives
+Each of these alternatives have singificantly larger communities backing them and are likely more polished and reliable.
+- [JuNest](https://github.com/fsquillace/junest) - Similar concept but with Arch Linux instead of Debian Testing.
+- [Debian Backports](https://backports.debian.org/) - Ports of packages from Debian Testing to Debian Stable. Much smaller package selection but the most reliable solution if your package exists here.
+- [Flatpak](https://flatpak.org/) - Purpose-built for GUI apps and with security in mind. Almost always has the latest package versions. Often integrated with graphical package managers.
+- [distrobox](https://distrobox.it/) - Use any Linux distro inside of your terminal. Uses a more heavyweight container system. 
+- [Snaps](https://snapcraft.io/) - Cross-distro package bundles.
+
 ## Dependencies
 apt-aside requires the following packages to already be installed on your system:
 - fakeroot*
@@ -43,7 +51,7 @@ nasm --version
 ```
 
 ### apt-aside-bash
-Launches a fakeroot and fakechroot bash into apt-aside's Debian Testing installation. 
+Launches a fakeroot and bubblewrapped bash into apt-aside's Debian Testing installation. 
 
 ### apt-aside-expose
 Usage: apt-aside-expose [package name]<br/>
