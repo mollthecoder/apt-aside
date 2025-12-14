@@ -92,10 +92,6 @@ cp ./chroot_wrapper.sh $INSTALL_PATH/
 cp ./make_symlinks.sh $INSTALL_PATH/
 cp ./uninstall.sh $INSTALL_PATH/
 
-echo "$INSTALL_PATH/root_bin/apt-get \$@" > $INSTALL_PATH/bin/apt-get-aside
-echo "$INSTALL_PATH/root_bin/bash \$@" > $INSTALL_PATH/bin/apt-aside-bash
-echo "$INSTALL_PATH/root_bin/apt \$@" > $INSTALL_PATH/bin/apt-aside
-
 ln -s $INSTALL_PATH/make_symlinks.sh $INSTALL_PATH/bin/apt-aside-expose
 ln -s $INSTALL_PATH/bin/apt-get-aside $INSTALL_PATH/bin/apt-aside-get
 
