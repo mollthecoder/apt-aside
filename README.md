@@ -13,11 +13,14 @@ Development tools, programming languages, most GUI apps, and more.
 
 ## Dependencies
 apt-aside requires the following packages to already be installed on your system:
-- fakeroot
-- fakechroot
+- fakeroot*
+- fakechroot*
+- bubblewrap (bwrap)
 - git
 - GNU coreutils
 - bash (bash must be installed, but it is fine if it is not your main shell)
+
+*Package is only necessary when installing apt-aside for the first time
 
 apt-aside also relies on debootstrap during installation, but will clone it into /tmp for you, and delete it when the installation is complete.
 apt-aside only works on x86-64 systems, aka amd64.
@@ -35,7 +38,7 @@ Example:
 apt-get-aside update
 apt-get-aside upgrade
 apt-get-aside install nasm
-apt-get-aside expose nasm
+apt-aside-expose nasm
 nasm --version
 ```
 

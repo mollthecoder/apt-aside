@@ -8,10 +8,10 @@ cd $(dirname $0)
 mkdir $INSTALL_PATH
 
 echo Cloning debootstrap...
-git clone --depth=1 https://salsa.debian.org/installer-team/debootstrap.git /tmp/debootstrap &>/dev/null
+git clone --depth=1 https://salsa.debian.org/installer-team/debootstrap.git /tmp/debootstrap
 
 echo Running debootstrap...
-DEBOOTSTRAP_DIR=/tmp/debootstrap fakechroot fakeroot /tmp/debootstrap/debootstrap --variant=minbase --include=fakeroot,fakechroot testing $INSTALL_PATH/debian &>/dev/null
+DEBOOTSTRAP_DIR=/tmp/debootstrap fakechroot fakeroot /tmp/debootstrap/debootstrap --variant=minbase --exclude=passwd --include=fakeroot testing $INSTALL_PATH/debian 
 
 echo Removing debootstrap...
 rm -rf /tmp/debootstrap
