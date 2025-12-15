@@ -25,18 +25,36 @@ add_chroot_wrapper () {
 	ln -s $INSTALL_PATH/chroot_wrapper.sh $INSTALL_PATH/root_bin/$1
 }
 add_sys_cmd () {
-	USER_NAME=$1
-	CMD_NAME=$2
+	local USER_NAME=$1
+	local CMD_NAME=$2
 	add_chroot_wrapper $CMD_NAME
 	echo "$INSTALL_PATH/root_bin/$CMD_NAME \$@" > $INSTALL_PATH/bin/$USER_NAME
 }
-run_debootstrap () {
+clone_debootstrap () {
 	print_green "Cloning debootstrap..."
 	git clone --depth=1 https://salsa.debian.org/installer-team/debootstrap.git /tmp/debootstrap
 	trap clean_up_debootstrap EXIT
+}
+run_cmd_proot () {
+	proot -0 -r $INSTALL_PATH/debian -w / bash -c "$1"
+}
+debootstrap_second_stage () {
+	run_cmd_proot "bash /second_stage_install.sh && rm /second_stage_install.sh"
+}
+debootstrap_first_stage () {
+	PATH=$PATH:/sbin DEBOOTSTRAP_DIR=/tmp/debootstrap fakeroot /tmp/debootstrap/debootstrap --foreign --variant=minbase --exclude=passwd --include=fakeroot,locales,libterm-readline-perl-perl testing $INSTALL_PATH/debian
+	cp ./second_stage_install.sh $INSTALL_PATH/debian/second_stage_install.sh 
+	cp /etc/default/locale $INSTALL_PATH/debian/etc/default/locale
+	cp /etc/locale.gen $INSTALL_PATH/debian/etc/locale.gen
+}
+debootstrap_firsthalf () {
+	clone_debootstrap
 	print_green "Running debootstrap..."
-	PATH=$PATH:/sbin DEBOOTSTRAP_DIR=/tmp/debootstrap fakeroot /tmp/debootstrap/debootstrap --foreign --variant=minbase --exclude=passwd --include=fakeroot testing $INSTALL_PATH/debian
-	proot -0 -r $INSTALL_PATH/debian -w / bash -c "DEBOOTSTRAP_DIR=/debootstrap/ PATH=/sbin:/usr/bin /debootstrap/debootstrap --second-stage"
+	debootstrap_first_stage
+}
+run_debootstrap () {
+	debootstrap_firsthalf
+	debootstrap_second_stage
 }
 command_exists () {
 	if hash $1 &>/dev/null; then
@@ -59,7 +77,11 @@ trap remove_apt_aside ERR
 trap cancel_installation SIGINT
 
 if ! command_exists proot; then
-	print_red "PRoot is not installed; it is a dependency of apt-aside."
+	if ! command_exists bwrap; then
+		print_red "Neither PRoot nor bubblewrap are installed. At least one is required to run apt-aside."
+		exit 1
+	fi
+	print_red "PRoot is not installed; it is required to install apt-aside."
 	exit 1
 fi
 if ! command_exists git; then
