@@ -28,7 +28,7 @@ add_sys_cmd () {
 	USER_NAME=$1
 	CMD_NAME=$2
 	add_chroot_wrapper $CMD_NAME
-	echo "$INSTALL_PATH/root_bin/$CMD_NAME" > $INSTALL_PATH/bin/$USER_NAME
+	echo "$INSTALL_PATH/root_bin/$CMD_NAME \$@" > $INSTALL_PATH/bin/$USER_NAME
 }
 run_debootstrap () {
 	print_green "Cloning debootstrap..."
