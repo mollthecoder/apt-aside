@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export PATH=/usr/bin:/sbin:/usr/sbin
 DEBOOTSTRAP_DIR=/debootstrap/ /debootstrap/debootstrap --second-stage
 

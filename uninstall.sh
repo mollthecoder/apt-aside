@@ -1,4 +1,4 @@
-INSTALL_PATH=$HOME/.apt-aside
+#!/usr/bin/env bash
+INSTALL_PATH="$HOME/.apt-aside"
 
-cd ~/
-rm -rf $INSTALL_PATH
+rm -rf "$INSTALL_PATH"
