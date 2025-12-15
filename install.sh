@@ -106,15 +106,17 @@ mkdir "$INSTALL_PATH/root_bin"
 add_sys_cmd apt-get-aside apt-get
 add_sys_cmd apt-aside-bash bash
 add_sys_cmd apt-aside apt
-# dependency of apt-aside-expose
+# dependency of apt-aside-(un)expose
 add_chroot_wrapper dpkg
 
 cp ./wrapper.sh "$INSTALL_PATH/"
 cp ./chroot_wrapper.sh "$INSTALL_PATH/"
 cp ./make_symlinks.sh "$INSTALL_PATH/"
+cp ./destroy_symlinks.sh "$INSTALL_PATH/"
 cp ./uninstall.sh "$INSTALL_PATH/"
 
 ln -s "$INSTALL_PATH/make_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-expose"
+ln -s "$INSTALL_PATH/destroy_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-unexpose"
 ln -s "$INSTALL_PATH/bin/apt-get-aside" "$INSTALL_PATH/bin/apt-aside-get"
 
 chmod +x "$INSTALL_PATH"/bin/*

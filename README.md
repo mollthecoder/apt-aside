@@ -66,6 +66,11 @@ Usage: apt-aside-expose [package name]
 
 Adds all of the binaries of a package that is installed in apt-aside's Debian installation to your PATH.
 
+### apt-aside-unexpose
+Usage: apt-aside-unexpose [package name]
+
+Un-exposes a previously exposed package.
+
 ### apt-get-aside
 Alias: apt-aside-get
 
