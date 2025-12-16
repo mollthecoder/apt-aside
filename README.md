@@ -9,6 +9,7 @@ The following packages will not work:
 - Packages that have postinstall scripts that require real root (note: scripts that work via fakeroot will work fine)
 - Packages that depend on a kernel that is newer than that of Debian Stable
 - Packages that depend on daemons newer than that of your current system 
+- Packages with hardcoded absolute paths for assets
 
 ## What Will Work
 Development tools, programming languages, most GUI apps, and more.
@@ -60,6 +61,8 @@ The apt binary of apt-aside's Debian installation. See the usage of `apt`.
 
 ### apt-aside-bash
 Launches a fakeroot and prooted bash into apt-aside's Debian Testing installation. 
+
+Note: apt-aside-bash is intended for maintainance activities. For regular use of your programs, apt-aside-expose them.
 
 ### apt-aside-expose
 Usage: apt-aside-expose [package name]

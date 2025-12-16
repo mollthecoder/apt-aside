@@ -114,6 +114,7 @@ cp ./chroot_wrapper.sh "$INSTALL_PATH/"
 cp ./make_symlinks.sh "$INSTALL_PATH/"
 cp ./destroy_symlinks.sh "$INSTALL_PATH/"
 cp ./uninstall.sh "$INSTALL_PATH/"
+cp ./sitecustomize.py "$INSTALL_PATH/"
 
 ln -s "$INSTALL_PATH/make_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-expose"
 ln -s "$INSTALL_PATH/destroy_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-unexpose"
