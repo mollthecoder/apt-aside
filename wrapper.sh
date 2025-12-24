@@ -14,8 +14,10 @@ export PYTHONPLATLIBDIR="$INSTALL_PATH/debian/usr/lib"
 export PYTHONPATH="$INSTALL_PATH"
 
 is_elf_binary () {
-	local first_bytes="$(head -c 4 "$BIN_PATH")"
-	local magic_number=$'\x7FELF'
+	local first_bytes
+	local magic_number
+	first_bytes="$(head -c 4 "$BIN_PATH")"
+	magic_number=$'\x7FELF'
 	if [[ "$first_bytes" == "$magic_number" ]]; then
 		return 0
 	fi
@@ -23,7 +25,8 @@ is_elf_binary () {
 }
 
 has_shebang () {
-	local first_bytes="$(head -c 2 "$BIN_PATH")"
+	local first_bytes
+	first_bytes="$(head -c 2 "$BIN_PATH")"
 	if [[ "$first_bytes" == "#!" ]]; then
 		return 0
 	fi
@@ -31,19 +34,23 @@ has_shebang () {
 }
 
 run_shebang () {
-	local shebang="$(head -n 1 "$BIN_PATH" | cut -b 3-)"
+	local shebang
+	shebang="$(head -n 1 "$BIN_PATH" | cut -b 3-)"
 	local interpreter
 	local args
 	read -r interpreter args <<< "$shebang"
-	local path_var="$INSTALL_PATH/debian/bin:$INSTALL_PATH/debian/usr/bin" 
-	local new_interpreter_path=$(realpath -ms "$INSTALL_PATH/debian/$interpreter")
-	local interp_name=$(basename "$new_interpreter_path")
+	local path_var
+	local new_interpreter_path
+	local interp_name
+	path_var="$INSTALL_PATH/debian/bin:$INSTALL_PATH/debian/usr/bin" 
+	new_interpreter_path=$(realpath -ms "$INSTALL_PATH/debian/$interpreter")
+	interp_name=$(basename "$new_interpreter_path")
 
 	# it's technically incorrect to assume that the interpreter is an ELF binary, but we do for simplicity
-	if (( $args )); then
-		"$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$args" "$BIN_PATH"
+	if (( args )); then
+		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$args" "$BIN_PATH"
 	else
-		"$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$BIN_PATH"
+		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$BIN_PATH"
 	fi
 }
 
