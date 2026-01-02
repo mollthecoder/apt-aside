@@ -13,6 +13,8 @@ LIBRARY_PATH="$INSTALL_PATH/debian/lib/x86_64-linux-gnu/:$INSTALL_PATH/debian/us
 export PYTHONPLATLIBDIR="$INSTALL_PATH/debian/usr/lib"
 export PYTHONPATH="$INSTALL_PATH"
 
+PROG_ARGS=( "$@" )
+
 is_elf_binary () {
 	local first_bytes
 	local magic_number
@@ -42,15 +44,15 @@ run_shebang () {
 	local path_var
 	local new_interpreter_path
 	local interp_name
-	path_var="$INSTALL_PATH/debian/bin:$INSTALL_PATH/debian/usr/bin" 
+	path_var="$INSTALL_PATH/java_bin:$INSTALL_PATH/debian/bin:$INSTALL_PATH/debian/usr/bin" 
 	new_interpreter_path=$(realpath -ms "$INSTALL_PATH/debian/$interpreter")
 	interp_name=$(basename "$new_interpreter_path")
 
 	# it's technically incorrect to assume that the interpreter is an ELF binary, but we do for simplicity
 	if (( args )); then
-		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$args" "$BIN_PATH"
+		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$args" "$BIN_PATH" "${PROG_ARGS[@]}"
 	else
-		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$BIN_PATH"
+		PATH="$path_var" "$DYNAMIC_LINKER" --argv0 "$interp_name" --library-path "$LIBRARY_PATH" "$new_interpreter_path" "$BIN_PATH" "${PROG_ARGS[@]}"
 	fi
 }
 

@@ -32,9 +32,9 @@ use_proot () {
 }
 
 if use_bwrap; then
-	bwrap --uid 0 --gid 0 --unshare-all --share-net --hostname apt-aside --dev-bind "$HOME/.apt-aside/debian/" / --setenv FAKEROOTDONTTRYCHOWN 1 --die-with-parent --new-session -- /usr/bin/fakeroot-sysv /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 --library-path /lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/libfakeroot --argv0 "$BIN_NAME" "$BIN_PATH" "$@"
+	bwrap --uid 0 --gid 0 --unshare-all --share-net --hostname apt-aside --dev-bind "$HOME/.apt-aside/debian/" / --proc /proc --setenv FAKEROOTDONTTRYCHOWN 1 --die-with-parent --new-session -- /usr/bin/fakeroot-sysv /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 --library-path /lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/libfakeroot --argv0 "$BIN_NAME" "$BIN_PATH" "$@"
 elif use_proot; then
-	proot -r "$HOME/.apt-aside/debian" -w / -0 /usr/bin/fakeroot-sysv /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 --library-path /lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/libfakeroot --argv0 "$BIN_NAME" "$BIN_PATH" "$@"
+	proot -r "$HOME/.apt-aside/debian" -b /proc -w / -0 /usr/bin/fakeroot-sysv /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 --library-path /lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/libfakeroot --argv0 "$BIN_NAME" "$BIN_PATH" "$@"
 else
 	echo "Error: Neither bwrap nor proot are installed. Please install one or the other to perform system operations in apt-aside."
 fi

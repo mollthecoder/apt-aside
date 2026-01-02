@@ -1,5 +1,5 @@
 [default]
-all: shellcheck install_nasm_bwrap install_nasm_proot test_locale
+all: shellcheck install_nasm_bwrap install_nasm_proot test_locale test_reinstall
 
 
 shellcheck:
@@ -30,3 +30,12 @@ test_locale: install
 	if [[ "$SYSTEM_LOCALE" != "$APT_ASIDE_LOCALE" ]]; then
 		exit 1
 	fi
+
+test_reinstall: install
+	apt-get-aside update -y
+	apt-get-aside upgrade -y
+	apt-get-aside install nasm -y
+	apt-aside-expose nasm
+	nasm --version
+	./reinstall.sh
+	nasm --version

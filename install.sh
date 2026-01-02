@@ -106,8 +106,8 @@ mkdir "$INSTALL_PATH/root_bin"
 add_sys_cmd apt-get-aside apt-get
 add_sys_cmd apt-aside-bash bash
 add_sys_cmd apt-aside apt
-# dependency of apt-aside-(un)expose
-add_chroot_wrapper dpkg
+# dependency of apt-aside-(un)expose and reinstall.sh
+add_chroot_wrapper dpkg-query
 
 cp ./wrapper.sh "$INSTALL_PATH/"
 cp ./chroot_wrapper.sh "$INSTALL_PATH/"
@@ -115,6 +115,9 @@ cp ./make_symlinks.sh "$INSTALL_PATH/"
 cp ./destroy_symlinks.sh "$INSTALL_PATH/"
 cp ./uninstall.sh "$INSTALL_PATH/"
 cp ./sitecustomize.py "$INSTALL_PATH/"
+mkdir "$INSTALL_PATH/java_bin"
+cp ./java_interception.sh "$INSTALL_PATH/java_bin/java"
+touch "$INSTALL_PATH/exposed-packages"
 
 ln -s "$INSTALL_PATH/make_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-expose"
 ln -s "$INSTALL_PATH/destroy_symlinks.sh" "$INSTALL_PATH/bin/apt-aside-unexpose"

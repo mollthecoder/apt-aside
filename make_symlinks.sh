@@ -14,7 +14,9 @@ if [[ $# -gt 1 ]]; then
 	exit 1
 fi
 
-for file in $("$INSTALL_PATH/root_bin/dpkg" -L "$1"); do
+echo "$1" >> "$INSTALL_PATH/exposed-packages"
+
+for file in $("$INSTALL_PATH/root_bin/dpkg-query" -L "$1"); do
 	SOURCE_PATH="$INSTALL_PATH/debian$file"
 	if [[ $SOURCE_PATH != $INSTALL_PATH/debian/usr/bin/* ]]; then
 		continue
